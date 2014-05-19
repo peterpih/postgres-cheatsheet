@@ -3,7 +3,7 @@ Magic words:
 psql -U postgres
 ```
 
-Most `\d` commands support additional param of `__schema__.name` and accept wildcards like `*.*`
+Most `\d` commands support additional param of `__schema__.name__` and accept wildcards like `*.*`
 
 - `\dt`: List tables
 - `\df`: List functions
