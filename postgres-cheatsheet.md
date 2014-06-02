@@ -9,6 +9,7 @@ Most `\d` commands support additional param of `__schema__.name__` and accept wi
 - `\c __database__`: Connect to a database
 - `\dt`: List tables
 - `\l`: List databases
+- `\dn`: List schemas
 - `\df`: List functions
 - `\dv`: List views
 - `SELECT * FROM pg_proc WHERE proname='__procedurename__'`: List procedure/function
