@@ -8,7 +8,7 @@ Most `\d` commands support additional param of `__schema__.name__` and accept wi
 - `\q`: Quit/Exit
 - `\c __database__`: Connect to a database
 - `\d __table__`: Show table definition including triggers
-- `\dt`: List tables
+- `\dt *.*`: List tables from all schemas (if `*.*` is omitted will only show SEARCH_PATH ones)
 - `\l`: List databases
 - `\dn`: List schemas
 - `\df`: List functions
