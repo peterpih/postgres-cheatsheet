@@ -20,6 +20,7 @@ Most `\d` commands support additional param of `__schema__.name__` and accept wi
 - `SELECT pg_size_pretty(pg_database_size('__database_name__'));`: Show DB space in use
 - `show statement_timeout;`: Show current user's statement timeout
 - `SELECT pid, datname, waiting, state, query FROM pg_stat_activity WHERE datname='__database_name__';`: Show queries being executed at a certain DB. Can also display query time, etc.
+- `SELECT * FROM pg_indexes WHERE tablename='__table_name__';`: Show table indexes
 
 Casting:
 - `CAST (column AS type)` or `column::type`
