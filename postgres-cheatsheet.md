@@ -26,7 +26,7 @@ Casting:
 - `CAST (column AS type)` or `column::type`
 
 SQL queries:
-- Get all indexes from all tables of a scheam:
+- Get all indexes from all tables of a schema:
 ```sql
 select
    t.relname as table_name,
