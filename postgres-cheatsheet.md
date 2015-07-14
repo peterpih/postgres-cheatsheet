@@ -24,3 +24,28 @@ Most `\d` commands support additional param of `__schema__.name__` and accept wi
 
 Casting:
 - `CAST (column AS type)` or `column::type`
+
+SQL queries:
+- Get all indexes from all tables of a scheam:
+```sql
+select
+   t.relname as table_name,
+   i.relname as index_name,
+   a.attname as column_name
+from
+   pg_class t,
+   pg_class i,
+   pg_index ix,
+   pg_attribute a,
+    pg_namespace n
+where
+   t.oid = ix.indrelid
+   and i.oid = ix.indexrelid
+   and a.attrelid = t.oid
+   and a.attnum = ANY(ix.indkey)
+   and t.relnamespace = n.oid
+    and n.nspname = 'kartones'
+order by
+   t.relname,
+   i.relname
+```
