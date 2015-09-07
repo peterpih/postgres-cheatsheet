@@ -2,6 +2,7 @@ Magic words:
 ```bash
 psql -U postgres
 ```
+If run with `-E` flag, it will describe the underlaying queries of the `\` commands (cool for learning!).
 
 Most `\d` commands support additional param of `__schema__.name__` and accept wildcards like `*.*`
 
