@@ -20,6 +20,22 @@ Casting:
 - `CAST (column AS type)` or `column::type`
 - `'__table_name__'::regclass::oid`: Get oid having a table name
 
+Changing verbosity & querying Postgres log:
+- First edit the config file, set a decent verbosity, save and restart postgres:
+```
+sudo vim /etc/postgresql/9.3/main/postgresql.conf
+
+# Uncomment/Change inside:
+log_min_messages = debug2
+log_min_error_statement = debug2
+
+sudo service postgresql restart
+```
+- Now you will get tons of details of every statement, error, and even background tasks like VACUUMs
+```
+tail -f /var/log/postgresql/postgresql-9.3-main.log
+```
+
 SQL queries:
 - `SELECT * FROM pg_proc WHERE proname='__procedurename__'`: List procedure/function
 - `SELECT * FROM pg_views WHERE viewname='__viewname__';`: List view (including the definition)
