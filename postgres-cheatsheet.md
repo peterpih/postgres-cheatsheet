@@ -35,6 +35,11 @@ sudo service postgresql restart
 ```
 tail -f /var/log/postgresql/postgresql-9.3-main.log
 ```
+- How to add user who executed a PG statement to log (editing `postgresql.conf`):
+```
+log_line_prefix = '%t %u %d %a '
+```
+
 
 SQL queries:
 - `SELECT * FROM pg_proc WHERE proname='__procedurename__'`: List procedure/function
