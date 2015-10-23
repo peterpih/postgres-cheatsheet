@@ -67,3 +67,4 @@ order by
    t.relname,
    i.relname
 ```
+- `select * from pg_stat_activity where waiting='t'`: Get all queries waiting for data (that might be hung)
