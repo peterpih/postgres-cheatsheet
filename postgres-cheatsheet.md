@@ -73,3 +73,8 @@ order by
    i.relname
 ```
 - `select * from pg_stat_activity where waiting='t'`: Get all queries waiting for data (that might be hung)
+- Get all currently executing queries:
+```
+SELECT pg_stat_get_backend_pid(s.backendid) AS procpid, pg_stat_get_backend_activity(s.backendid) AS current_query
+FROM (SELECT pg_stat_get_backend_idset() AS backendid) AS s;
+```
