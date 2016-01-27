@@ -51,38 +51,38 @@ log_line_prefix = '%t %u %d %a '
 - `SELECT * FROM pg_indexes WHERE tablename='__table_name__' AND schemaname='__schema_name__';`: Show table indexes
 - Get all indexes from all tables of a schema:
 ```sql
-select
-   t.relname as table_name,
-   i.relname as index_name,
-   a.attname as column_name
-from
+SELECT
+   t.relname AS table_name,
+   i.relname AS index_name,
+   a.attname AS column_name
+FROM
    pg_class t,
    pg_class i,
    pg_index ix,
    pg_attribute a,
     pg_namespace n
-where
+WHERE
    t.oid = ix.indrelid
-   and i.oid = ix.indexrelid
-   and a.attrelid = t.oid
-   and a.attnum = ANY(ix.indkey)
-   and t.relnamespace = n.oid
-    and n.nspname = 'kartones'
-order by
+   AND i.oid = ix.indexrelid
+   AND a.attrelid = t.oid
+   AND a.attnum = ANY(ix.indkey)
+   AND t.relnamespace = n.oid
+    AND n.nspname = 'kartones'
+ORDER BY
    t.relname,
    i.relname
 ```
 - Execution data:
   - Queries being executed at a certain DB:
-```
+```sql
 SELECT pid, datname, waiting, state, query FROM pg_stat_activity WHERE datname='__database_name__';
 ```
   - Get all queries from all dbs waiting for data (might be hung): 
-```
+```sql
 SELECT * FROM pg_stat_activity WHERE waiting='t'
 ```
   - Currently running queries with process pid:
-```
+```sql
 SELECT pg_stat_get_backend_pid(s.backendid) AS procpid, 
   pg_stat_get_backend_activity(s.backendid) AS current_query
 FROM (SELECT pg_stat_get_backend_idset() AS backendid) AS s;
