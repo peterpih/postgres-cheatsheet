@@ -29,7 +29,7 @@ sudo service postgresql restart
 ```
 
 - Changing verbosity & querying Postgres log:
-  - First edit the config file, set a decent verbosity, save and restart postgres:
+  1) First edit the config file, set a decent verbosity, save and restart postgres:
 ```
 sudo vim /etc/postgresql/9.3/main/postgresql.conf
 
@@ -39,11 +39,11 @@ log_min_error_statement = debug2
 
 sudo service postgresql restart
 ```
-  - Now you will get tons of details of every statement, error, and even background tasks like VACUUMs
+  2) Now you will get tons of details of every statement, error, and even background tasks like VACUUMs
 ```
 tail -f /var/log/postgresql/postgresql-9.3-main.log
 ```
-  - How to add user who executed a PG statement to log (editing `postgresql.conf`):
+  3) How to add user who executed a PG statement to log (editing `postgresql.conf`):
 ```
 log_line_prefix = '%t %u %d %a '
 ```
