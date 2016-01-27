@@ -48,7 +48,6 @@ log_line_prefix = '%t %u %d %a '
 - `SELECT pg_size_pretty(pg_total_relation_size('__table_name__'));`: Show DB table space in use
 - `SELECT pg_size_pretty(pg_database_size('__database_name__'));`: Show DB space in use
 - `show statement_timeout;`: Show current user's statement timeout
-- `SELECT pid, datname, waiting, state, query FROM pg_stat_activity WHERE datname='__database_name__';`: Show queries being executed at a certain DB. Can also display query time, etc.
 - `SELECT * FROM pg_indexes WHERE tablename='__table_name__' AND schemaname='__schema_name__';`: Show table indexes
 - Get all indexes from all tables of a schema:
 ```sql
@@ -73,8 +72,16 @@ order by
    t.relname,
    i.relname
 ```
-- `select * from pg_stat_activity where waiting='t'`: Get all queries waiting for data (that might be hung)
-- Get all currently executing queries:
+- Execution data:
+  - Queries being executed at a certain DB:
+```
+SELECT pid, datname, waiting, state, query FROM pg_stat_activity WHERE datname='__database_name__';
+```
+  - Get all queries from all dbs waiting for data (might be hung): 
+```
+SELECT * FROM pg_stat_activity WHERE waiting='t'
+```
+  - Currently running queries with process pid:
 ```
 SELECT pg_stat_get_backend_pid(s.backendid) AS procpid, 
   pg_stat_get_backend_activity(s.backendid) AS current_query
