@@ -21,8 +21,15 @@ Most `\d` commands support additional param of `__schema__.name__` and accept wi
 
 ## Configuration
 
-Changing verbosity & querying Postgres log:
-- First edit the config file, set a decent verbosity, save and restart postgres:
+- Service management commands:
+```
+sudo service postgresql stop
+sudo service postgresql start
+sudo service postgresql restart
+```
+
+- Changing verbosity & querying Postgres log:
+  - First edit the config file, set a decent verbosity, save and restart postgres:
 ```
 sudo vim /etc/postgresql/9.3/main/postgresql.conf
 
@@ -32,11 +39,11 @@ log_min_error_statement = debug2
 
 sudo service postgresql restart
 ```
-- Now you will get tons of details of every statement, error, and even background tasks like VACUUMs
+  - Now you will get tons of details of every statement, error, and even background tasks like VACUUMs
 ```
 tail -f /var/log/postgresql/postgresql-9.3-main.log
 ```
-- How to add user who executed a PG statement to log (editing `postgresql.conf`):
+  - How to add user who executed a PG statement to log (editing `postgresql.conf`):
 ```
 log_line_prefix = '%t %u %d %a '
 ```
