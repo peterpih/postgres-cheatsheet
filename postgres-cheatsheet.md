@@ -29,7 +29,7 @@ sudo service postgresql restart
 ```
 
 - Changing verbosity & querying Postgres log:
-  1) First edit the config file, set a decent verbosity, save and restart postgres:
+  <br/>1) First edit the config file, set a decent verbosity, save and restart postgres:
 ```
 sudo vim /etc/postgresql/9.3/main/postgresql.conf
 
