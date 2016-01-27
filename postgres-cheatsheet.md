@@ -1,3 +1,6 @@
+
+## PSQL
+
 Magic words:
 ```bash
 psql -U postgres
@@ -16,9 +19,7 @@ Most `\d` commands support additional param of `__schema__.name__` and accept wi
 - `\dv`: List views
 - `\df+ __function` : Show function SQL code. `\x` before pretty-formats it
 
-Casting:
-- `CAST (column AS type)` or `column::type`
-- `'__table_name__'::regclass::oid`: Get oid having a table name
+## Configuration
 
 Changing verbosity & querying Postgres log:
 - First edit the config file, set a decent verbosity, save and restart postgres:
@@ -41,7 +42,7 @@ log_line_prefix = '%t %u %d %a '
 ```
 
 
-SQL queries:
+## Handy queries
 - `SELECT * FROM pg_proc WHERE proname='__procedurename__'`: List procedure/function
 - `SELECT * FROM pg_views WHERE viewname='__viewname__';`: List view (including the definition)
 - `SELECT pg_size_pretty(pg_total_relation_size('__table_name__'));`: Show DB table space in use
@@ -79,3 +80,11 @@ SELECT pg_stat_get_backend_pid(s.backendid) AS procpid,
   pg_stat_get_backend_activity(s.backendid) AS current_query
 FROM (SELECT pg_stat_get_backend_idset() AS backendid) AS s;
 ```
+
+Casting:
+- `CAST (column AS type)` or `column::type`
+- `'__table_name__'::regclass::oid`: Get oid having a table name
+
+
+## Tools
+- [pg-top](http://ptop.projects.pgfoundry.org/): `top` for PG. `sudo apt-get install ptop` + `pg_top`
