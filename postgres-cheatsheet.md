@@ -82,7 +82,9 @@ ORDER BY
 - Execution data:
   - Queries being executed at a certain DB:
 ```sql
-SELECT datname, application_name, pid, backend_start, query_start, state_change, state, query FROM pg_stat_activity WHERE datname='__database_name__';
+SELECT datname, application_name, pid, backend_start, query_start, state_change, state, query 
+  FROM pg_stat_activity 
+  WHERE datname='__database_name__';
 ```
   - Get all queries from all dbs waiting for data (might be hung): 
 ```sql
