@@ -35,8 +35,9 @@ sudo service postgresql restart
 sudo vim /etc/postgresql/9.3/main/postgresql.conf
 
 # Uncomment/Change inside:
-log_min_messages = debug2
-log_min_error_statement = debug2
+log_min_messages = debug5
+log_min_error_statement = debug5
+log_min_duration_statement = -1
 
 sudo service postgresql restart
 ```
