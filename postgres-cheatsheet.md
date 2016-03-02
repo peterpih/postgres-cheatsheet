@@ -106,3 +106,8 @@ Casting:
 
 ## Tools
 - [pg-top](http://ptop.projects.pgfoundry.org/): `top` for PG. `sudo apt-get install ptop` + `pg_top`
+- [Unix-like reverse search in psql](https://dba.stackexchange.com/questions/63453/is-there-a-psql-equivalent-of-bashs-reverse-search-history):
+```bash
+$ echo "bind "^R" em-inc-search-prev" > $HOME/.editrc
+$ source $HOME/.editrc
+``` 
