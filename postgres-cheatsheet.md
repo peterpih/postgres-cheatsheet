@@ -111,6 +111,10 @@ Casting:
 - `CAST (column AS type)` or `column::type`
 - `'__table_name__'::regclass::oid`: Get oid having a table name
 
+Query analysis:
+- `EXPLAIN __query__`: see the query plan for the given query
+- `EXPLAIN ANALYZE __query__`: see and execute the query plan for the given query
+- `ANALYZE [__table__]`: collect statistics  
 
 ## Tools
 - [pg-top](http://ptop.projects.pgfoundry.org/): `top` for PG. `sudo apt-get install ptop` + `pg_top`
