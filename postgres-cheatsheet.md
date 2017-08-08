@@ -5,7 +5,9 @@ Magic words:
 ```bash
 psql -U postgres
 ```
-If run with `-E` flag, it will describe the underlaying queries of the `\` commands (cool for learning!).
+Some interesting flags (to see all, use `-h`):
+- `-E`: will describe the underlaying queries of the `\` commands (cool for learning!)
+- `-l`: psql will list all databases and then exit (useful if the user you connect with doesn't has a default database, like at AWS RDS)
 
 Most `\d` commands support additional param of `__schema__.name__` and accept wildcards like `*.*`
 
