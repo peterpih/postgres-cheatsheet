@@ -125,3 +125,4 @@ Query analysis:
 $ echo "bind "^R" em-inc-search-prev" > $HOME/.editrc
 $ source $HOME/.editrc
 ``` 
+- [PostgreSQL Exercises](https://pgexercises.com/): An awesome resource to learn to learn SQL, teaching you with simple examples in a great visual way. **Highly recommended**.
