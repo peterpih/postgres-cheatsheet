@@ -19,6 +19,7 @@ Most `\d` commands support additional param of `__schema__.name__` and accept wi
 - `\dn`: List schemas
 - `\df`: List functions
 - `\dv`: List views
+- `\di`: List indexes
 - `\df+ __function__` : Show function SQL code. 
 - `\x`: Pretty-format query results instead of the not-so-useful ASCII tables
 
