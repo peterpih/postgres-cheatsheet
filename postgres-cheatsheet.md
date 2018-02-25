@@ -22,6 +22,7 @@ Most `\d` commands support additional param of `__schema__.name__` and accept wi
 - `\di`: List indexes
 - `\df+ __function__` : Show function SQL code. 
 - `\x`: Pretty-format query results instead of the not-so-useful ASCII tables
+- `\copy (SELECT * FROM __table_name__) TO 'file_path_and_name.csv' WITH CSV`: Export a table as CSV
 
 User Related:
 - `\du`: List users
@@ -60,6 +61,10 @@ tail -f /var/log/postgresql/postgresql-9.3-main.log
 ```
 log_line_prefix = '%t %u %d %a '
 ```
+
+## Create command
+
+There are many `CREATE` choices, like `CREATE DATABASE __database_name__`, `CREATE TABLE __table_name__` ... Parameters differ but can be checked [at the official documentation](https://www.postgresql.org/search/?u=%2Fdocs%2F9.1%2F&q=CREATE).
 
 
 ## Handy queries
