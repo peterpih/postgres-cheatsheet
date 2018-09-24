@@ -5,7 +5,7 @@ Magic words:
 ```bash
 psql -U postgres
 ```
-Some interesting flags (to see all, use `-h`):
+Some interesting flags (to see all, use `-h` or `--help` depending on your psql version):
 - `-E`: will describe the underlaying queries of the `\` commands (cool for learning!)
 - `-l`: psql will list all databases and then exit (useful if the user you connect with doesn't has a default database, like at AWS RDS)
 
@@ -125,8 +125,12 @@ Query analysis:
 - `EXPLAIN ANALYZE __query__`: see and execute the query plan for the given query
 - `ANALYZE [__table__]`: collect statistics  
 
+## Keyboard shortcuts
+- `CTRL` + `R`: reverse-i-search
+
 ## Tools
-- [pg-top](http://ptop.projects.pgfoundry.org/): `top` for PG. `sudo apt-get install ptop` + `pg_top`
+- `ptop` and `pg_top`: `top` for PG. Available on the APT repository from `apt.postgresql.org`.
+- [pg_activity](https://github.com/julmon/pg_activity): Command line tool for PostgreSQL server activity monitoring.
 - [Unix-like reverse search in psql](https://dba.stackexchange.com/questions/63453/is-there-a-psql-equivalent-of-bashs-reverse-search-history):
 ```bash
 $ echo "bind "^R" em-inc-search-prev" > $HOME/.editrc
