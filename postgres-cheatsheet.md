@@ -127,6 +127,9 @@ Query analysis:
 - `EXPLAIN ANALYZE __query__`: see and execute the query plan for the given query
 - `ANALYZE [__table__]`: collect statistics  
 
+Generating random data ([source](https://www.citusdata.com/blog/2019/07/17/postgres-tips-for-average-and-power-user/)):
+- `INSERT INTO some_table (a_float_value) SELECT random() * 100000 FROM generate_series(1, 1000000) i;`
+
 ## Keyboard shortcuts
 - `CTRL` + `R`: reverse-i-search
 
