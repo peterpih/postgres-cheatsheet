@@ -11,6 +11,7 @@ Some interesting flags (to see all, use `-h` or `--help` depending on your psql 
 
 Most `\d` commands support additional param of `__schema__.name__` and accept wildcards like `*.*`
 
+- `\?`: Show help (list of available commands with an explanation)
 - `\q`: Quit/Exit
 - `\c __database__`: Connect to a database
 - `\d __table__`: Show table definition (columns, etc.) including triggers
@@ -29,6 +30,7 @@ Most `\d` commands support additional param of `__schema__.name__` and accept wi
 - `\copy (SELECT * FROM __table_name__) TO 'file_path_and_name.csv' WITH CSV`: Export a table as CSV
 - `\des+`: List all foreign servers
 - `\dE[S+]`: List all foreign tables
+- `\! __bash_command__`: execute `__bash_command__` (e.g. `\! ls`)
 
 User Related:
 - `\du`: List users
@@ -69,10 +71,13 @@ tail -f /var/log/postgresql/postgresql-9.3-main.log
 log_line_prefix = '%t %u %d %a '
 ```
 
+- Check Extensions enabled in postgres: `SELECT * FROM pg_extension;`
+
+- Show available extensions: `SELECT * FROM pg_available_extension_versions;`
+
 ## Create command
 
 There are many `CREATE` choices, like `CREATE DATABASE __database_name__`, `CREATE TABLE __table_name__` ... Parameters differ but can be checked [at the official documentation](https://www.postgresql.org/search/?u=%2Fdocs%2F9.1%2F&q=CREATE).
-
 
 ## Handy queries
 - `SELECT * FROM pg_proc WHERE proname='__procedurename__'`: List procedure/function
@@ -117,10 +122,12 @@ SELECT * FROM pg_stat_activity WHERE waiting='t'
 ```
   - Currently running queries with process pid:
 ```sql
-SELECT pg_stat_get_backend_pid(s.backendid) AS procpid, 
+SELECT 
+  pg_stat_get_backend_pid(s.backendid) AS procpid, 
   pg_stat_get_backend_activity(s.backendid) AS current_query
 FROM (SELECT pg_stat_get_backend_idset() AS backendid) AS s;
 ```
+  - Get Connections by Database: `SELECT datname, numbackends FROM pg_stat_database;`
 
 Casting:
 - `CAST (column AS type)` or `column::type`
@@ -134,6 +141,80 @@ Query analysis:
 Generating random data ([source](https://www.citusdata.com/blog/2019/07/17/postgres-tips-for-average-and-power-user/)):
 - `INSERT INTO some_table (a_float_value) SELECT random() * 100000 FROM generate_series(1, 1000000) i;`
 
+Get sizes of tables, indexes and full DBs:
+```sql
+select current_database() as database,
+  pg_size_pretty(total_database_size) as total_database_size,
+  schema_name,
+  table_name,
+  pg_size_pretty(total_table_size) as total_table_size,
+  pg_size_pretty(table_size) as table_size,
+  pg_size_pretty(index_size) as index_size
+  from ( select table_name,
+          table_schema as schema_name,
+          pg_database_size(current_database()) as total_database_size,
+          pg_total_relation_size(table_name) as total_table_size,
+          pg_relation_size(table_name) as table_size,
+          pg_indexes_size(table_name) as index_size
+          from information_schema.tables
+          where table_schema=current_schema() and table_name like 'table_%'
+          order by total_table_size
+      ) as sizes;
+```
+
+- [COPY command](https://www.postgresql.org/docs/9.2/sql-copy.html): Import/export from CSV to tables:
+```sql 
+COPY table_name [ ( column_name [, ...] ) ]
+FROM { 'filename' | STDIN }
+[ [ WITH ] ( option [, ...] ) ]
+
+COPY { table_name [ ( column_name [, ...] ) ] | ( query ) }
+TO { 'filename' | STDOUT }
+[ [ WITH ] ( option [, ...] ) ]
+```
+
+- List all grants for a specific user
+```sql
+SELECT table_catalog, table_schema, table_name, privilege_type
+FROM   information_schema.table_privileges
+WHERE  grantee = 'user_to_check' ORDER BY table_name;
+```
+
+- List all assigned user roles
+```sql
+SELECT
+    r.rolname,
+    r.rolsuper,
+    r.rolinherit,
+    r.rolcreaterole,
+    r.rolcreatedb,
+    r.rolcanlogin,
+    r.rolconnlimit,
+    r.rolvaliduntil,
+    ARRAY(SELECT b.rolname
+      FROM pg_catalog.pg_auth_members m
+      JOIN pg_catalog.pg_roles b ON (m.roleid = b.oid)
+      WHERE m.member = r.oid) as memberof, 
+    r.rolreplication
+FROM pg_catalog.pg_roles r
+ORDER BY 1;
+```
+
+- Check permissions in a table:
+```sql
+SELECT grantee, privilege_type
+FROM information_schema.role_table_grants
+WHERE table_name='name-of-the-table';
+```
+
+- Kill all Connections:
+```sql
+SELECT pg_terminate_backend(pg_stat_activity.pid)
+FROM pg_stat_activity
+WHERE datname = current_database() AND pid <> pg_backend_pid();
+```
+
+
 ## Keyboard shortcuts
 - `CTRL` + `R`: reverse-i-search
 
@@ -145,6 +226,12 @@ Generating random data ([source](https://www.citusdata.com/blog/2019/07/17/postg
 $ echo "bind "^R" em-inc-search-prev" > $HOME/.editrc
 $ source $HOME/.editrc
 ``` 
+- Show IP of the DB Instance: `SELECT inet_server_addr();`
+- File to save PostgreSQL credentials and permissions (format: `hostname:port:database:username:password`): `chmod 600 ~/.pgpass`
+- Collect statistics of a database (useful to improve speed after a Database Upgrade as previous query plans are deleted): `ANALYZE VERBOSE;`
+
+## Resources & Documentation
+- [Postgres Weekly](https://postgresweekly.com/) newsletter: The best way IMHO to keep up to date with PG news
 - [PostgreSQL Exercises](https://pgexercises.com/): An awesome resource to learn to learn SQL, teaching you with simple examples in a great visual way. **Highly recommended**.
 - [A Performance Cheat Sheet for PostgreSQL](https://severalnines.com/blog/performance-cheat-sheet-postgresql): Great explanations of `EXPLAIN`, `EXPLAIN ANALYZE`, `VACUUM`, configuration parameters and more. Quite interesting if you need to tune-up a postgres setup.
 - `psql -c "\l+" -H -q postgres > out.html`: Generate a html report of your databases (source: [Daniel Westermann](https://twitter.com/westermanndanie/status/1242117182982586372))
