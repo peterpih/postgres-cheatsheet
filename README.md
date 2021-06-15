@@ -1,3 +1,3 @@
 # postgres-cheatsheet
 
-To access, click on Goto File
+To access, click on "Go to file"
